@@ -1,0 +1,25 @@
+server:
+  port: 8087
+indexing-settings:
+  sites:
+    - url: http://www.playback.ru/
+      name: Playback
+    - url: https://volochek.life/
+      name: volochek
+    - url: https://ipfran.ru/
+      name: ipfran
+    - url: https://dimonvideo.ru/
+      name: dimon
+spring:
+  datasource:
+    username: root
+    password: rootuser
+    url: jdbc:mysql://localhost:3306/search_engine?useSSL=false&requireSSL=false&allowPublicKeyRetrieval=true
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        ddl-auto: update
+      show-sql: true
+  liquibase:
+    change-log: classpath:db/change-log/db.changelog-master.yaml
