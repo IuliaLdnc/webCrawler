@@ -58,49 +58,49 @@
             <artifactId>dictionary-reader-1.5</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>/Users/iulialadaniuc/Desktop/idea projects/MySearchEngine/libs/dictionary-reader-1.5.jar</systemPath>
+            <systemPath>/Users/iulialadaniuc/Desktop/webCrawler/libs/dictionary-reader-1.5.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>custom.libs</groupId>
             <artifactId>english-1.5</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>/Users/iulialadaniuc/Desktop/idea projects/MySearchEngine/libs/english-1.5.jar</systemPath>
+            <systemPath>/Users/iulialadaniuc/Desktop/webCrawler/libs/english-1.5.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>custom.libs</groupId>
             <artifactId>lucene-analyzers-common-8.11.0</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>/Users/iulialadaniuc/Desktop/idea projects/MySearchEngine/libs/lucene-analyzers-common-8.11.0.jar</systemPath>
+            <systemPath>/Users/iulialadaniuc/Desktop/webCrawler/libs/lucene-analyzers-common-8.11.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>custom.libs</groupId>
             <artifactId>lucene-core-8.11.0</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>/Users/iulialadaniuc/Desktop/idea projects/MySearchEngine/libs/lucene-core-8.11.0.jar</systemPath>
+            <systemPath>/Users/iulialadaniuc/Desktop/webCrawler/libs/lucene-core-8.11.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>custom.libs</groupId>
             <artifactId>morph-1.5</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>/Users/iulialadaniuc/Desktop/idea projects/MySearchEngine/libs/morph-1.5.jar</systemPath>
+            <systemPath>/Users/iulialadaniuc/Desktop/webCrawler/libs/morph-1.5.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>custom.libs</groupId>
             <artifactId>morphology-1.5</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>/Users/iulialadaniuc/Desktop/idea projects/MySearchEngine/libs/morphology-1.5.jar</systemPath>
+            <systemPath>/Users/iulialadaniuc/Desktop/webCrawler/libs/morphology-1.5.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>custom.libs</groupId>
             <artifactId>russian-1.5</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>/Users/iulialadaniuc/Desktop/idea projects/MySearchEngine/libs/russian-1.5.jar</systemPath>
+            <systemPath>/Users/iulialadaniuc/Desktop/webCrawler/libs/russian-1.5.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
