@@ -1,4 +1,4 @@
-package searchengine.services;
+package searchengine.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,6 @@ import java.time.ZoneOffset;
 import java.util.*;
 import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -38,10 +37,12 @@ public class SiteIndexingService {
     private final LemmatizationService lemmatizationService;
 
     public boolean startIndexing() {
-        if(indexingInProgress) {
+        if (indexingInProgress) {
+            log.warn("Индексация уже в процессе.");
             return false;
         }
         indexingInProgress = true;
+        log.info("Индексация началась.");
 
         sitesList.getSites().forEach(siteFromConfig -> {
             Optional<Site> existingSite = siteRepository.findByUrl(siteFromConfig.getUrl());
@@ -56,30 +57,33 @@ public class SiteIndexingService {
         });
 
         siteRepository.findAll()
-                .forEach(site -> forkJoinPool.submit
-                        (new IndexSiteTask(site, siteRepository, pageRepository, indexRepository,
+                .forEach(site -> forkJoinPool.submit(
+                        new IndexSiteTask(site, siteRepository, pageRepository, indexRepository,
                                 lemmaRepository, forkJoinPool, lemmatizationService)));
+
         return true;
     }
 
     public boolean stopIndexing() {
-        if(!indexingInProgress) {
+        if (!indexingInProgress) {
+            log.warn("Индексация не была запущена.");
             return false;
         }
 
         indexingInProgress = false;
+        log.info("Индексация остановлена.");
         forkJoinPool.shutdownNow();
 
         List<Site> sites = siteRepository.findAllByStatus(SiteStatus.INDEXING);
-        for(Site site : sites){
+        for (Site site : sites) {
             site.setStatus(SiteStatus.FAILED);
             site.setStatusTime(LocalDateTime.now());
             site.setLastError("Индексация остановлена пользователем");
             siteRepository.save(site);
 
             List<Page> pages = pageRepository.findBySiteId(site.getId());
-            for(Page page : pages) {
-                if(page.getCode() != 200){
+            for (Page page : pages) {
+                if (page.getCode() != 200) {
                     page.setSite(site);
                     pageRepository.save(page);
                 }
@@ -94,6 +98,7 @@ public class SiteIndexingService {
                 .findFirst();
 
         if (siteOptional.isEmpty()) {
+            log.warn("Не удалось найти сайт для URL: {}", url);
             return false;
         }
 
@@ -139,12 +144,16 @@ public class SiteIndexingService {
                 index.setRank(entry.getValue());
                 indexRepository.save(index);
             }
+
+            log.info("Страница успешно проиндексирована: {}", url);
         } catch (IOException e) {
-            log.error("Ошибка индексации страницы {}: {}", url, e.getMessage());
+            log.error("Ошибка при индексации страницы {}: {}", url, e.getMessage());
             return false;
         }
+
         return true;
     }
+
     public StatisticsResponse getStatistics() {
         List<Site> sites = siteRepository.findAll();
         int totalPages = (int) pageRepository.count();
@@ -229,7 +238,7 @@ public class SiteIndexingService {
 
         double maxRelevance = relevanceMap.values().stream()
                 .max(Double::compare)
-                .orElse(1.0); // Избегаем деления на 0
+                .orElse(1.0);
 
         List<SearchResult> results = pages.stream()
                 .map(page -> new SearchResult(page, relevanceMap.get(page) / maxRelevance))
@@ -250,5 +259,4 @@ public class SiteIndexingService {
                 .mapToDouble(Index::getRank)
                 .sum();
     }
-
 }

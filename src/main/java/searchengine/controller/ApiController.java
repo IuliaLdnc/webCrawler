@@ -1,17 +1,13 @@
-package searchengine.controllers;
+package searchengine.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import searchengine.dto.statistics.StatisticsResponse;
-import searchengine.model.Page;
-import searchengine.repository.PageRepository;
-import searchengine.services.SiteIndexingService;
-import searchengine.services.StatisticsService;
+import searchengine.service.SiteIndexingService;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
