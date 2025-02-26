@@ -1,5 +1,5 @@
 server:
-  port: 8087
+  port: 8080
 indexing-settings:
   sites:
     - url: http://www.playback.ru/
@@ -15,6 +15,7 @@ spring:
     username: root
     password: rootuser
     url: jdbc:mysql://localhost:3306/search_engine?useSSL=false&requireSSL=false&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     properties:
       hibernate:
@@ -22,4 +23,4 @@ spring:
         ddl-auto: update
       show-sql: true
   liquibase:
-    change-log: classpath:db/change-log/db.changelog-master.yaml
+    change-log: "classpath:/db/change-log/db.changelog-master.yaml"

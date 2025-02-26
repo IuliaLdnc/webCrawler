@@ -58,49 +58,49 @@
             <artifactId>dictionary-reader-1.5</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>/Users/iulialadaniuc/Desktop/webCrawler/libs/dictionary-reader-1.5.jar</systemPath>
+            <systemPath>${basedir}/libs/dictionary-reader-1.5.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>custom.libs</groupId>
             <artifactId>english-1.5</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>/Users/iulialadaniuc/Desktop/webCrawler/libs/english-1.5.jar</systemPath>
+            <systemPath>${basedir}/libs/english-1.5.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>custom.libs</groupId>
             <artifactId>lucene-analyzers-common-8.11.0</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>/Users/iulialadaniuc/Desktop/webCrawler/libs/lucene-analyzers-common-8.11.0.jar</systemPath>
+            <systemPath>${basedir}/libs/lucene-analyzers-common-8.11.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>custom.libs</groupId>
             <artifactId>lucene-core-8.11.0</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>/Users/iulialadaniuc/Desktop/webCrawler/libs/lucene-core-8.11.0.jar</systemPath>
+            <systemPath>${basedir}/libs/lucene-core-8.11.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>custom.libs</groupId>
             <artifactId>morph-1.5</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>/Users/iulialadaniuc/Desktop/webCrawler/libs/morph-1.5.jar</systemPath>
+            <systemPath>${basedir}/libs/morph-1.5.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>custom.libs</groupId>
             <artifactId>morphology-1.5</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>/Users/iulialadaniuc/Desktop/webCrawler/libs/morphology-1.5.jar</systemPath>
+            <systemPath>${basedir}/libs/morphology-1.5.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>custom.libs</groupId>
             <artifactId>russian-1.5</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>/Users/iulialadaniuc/Desktop/webCrawler/libs/russian-1.5.jar</systemPath>
+            <systemPath>${basedir}/libs/russian-1.5.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -114,8 +114,88 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>copy-libs</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>copy-dependencies</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>/Users/iulialadaniuc/Desktop/webCrawler/libs</outputDirectory>
+                        <overWriteReleases>false</overWriteReleases>
+                        <overWriteSnapshots>false</overWriteSnapshots>
+                        <overWriteIfNewer>true</overWriteIfNewer>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.1</version>
+            <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+                <annotationProcessorPaths>
+                    <path>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok</artifactId>
+                        <version>${lombok.version}</version>
+                    </path>
+                </annotationProcessorPaths>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>3.2.2</version>
+            <configuration>
+                <archive>
+                    <manifest>
+                        <mainClass>searchengine.Application</mainClass>
+                    </manifest>
+                </archive>
+            </configuration>
+        </plugin>
+
+        <plugin>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-maven-plugin</artifactId>
+            <version>4.25.0</version>
+            <configuration>
+                <changeLogFile>src/main/resources/db/change-log/db.changelog-master.yaml</changeLogFile>
+                <url>jdbc:mysql://localhost:3306/search_engine</url>
+                <username>root</username>
+                <password>rootuser</password>
+                <driver>com.mysql.cj.jdbc.Driver</driver>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <includeSystemScope>true</includeSystemScope>
+            </configuration>
+        </plugin>
+    </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>db.change-log/**</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
 </project>

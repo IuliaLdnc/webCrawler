@@ -43,7 +43,16 @@ In __pom.xml__ in blocks with jar files
         </dependency>
 ```
 in <systemPath></systemPath> for these files you should write file's paths.Reload maven and start application.
- 
+
+Do command
+```
+mvn clean install
+```
+After you should write in terminal 
+```
+ docker build -t my-search-engine .
+ docker run -p 8080:8080 --name search-engine my-search-engine
+```
 When application is started successfully, you should send GET HTTP-request on path /startIndexing. Engine starts indexing sites and pages.
 If you want to stop indexing you should send GET HTTP-request on path /stopIndexing without any params. If you want to index page
 separately you should send POST HTTP-request on path /indexPage with argument:
