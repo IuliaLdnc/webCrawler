@@ -25,13 +25,20 @@ Firstly you need to create database search_engine
 ```
 CREATE DATABASE search_engine
 ```
-In __application.yml__ you need to write your username and password for your MySql
+In __application.yml__ you should write your username and password for your MySql
 ```
 spring:
   datasource:
     username: root
     password: rootuser
 ```
+In __docker-compose.yml__ you should change password and user for your mysql in these blocks 
+```
+MYSQL_ROOT_PASSWORD: rootuser
+SPRING_DATASOURCE_USERNAME: root
+SPRING_DATASOURCE_PASSWORD: rootuser
+```
+
 In __pom.xml__ in blocks with jar files
 ```
    <dependency>
@@ -50,8 +57,7 @@ mvn clean install
 ```
 After you should write in terminal 
 ```
- docker build -t my-search-engine .
- docker run -p 8080:8080 --name search-engine my-search-engine
+ docker compose up --build
 ```
 When application is started successfully, you should send GET HTTP-request on path /startIndexing. Engine starts indexing sites and pages.
 If you want to stop indexing you should send GET HTTP-request on path /stopIndexing without any params. If you want to index page
